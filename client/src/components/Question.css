@@ -1,0 +1,7 @@
+.card .form-check-input:disabled ~ .form-check-label, .form-check-input[disabled] ~ .form-check-label {
+  color: inherit;
+}
+
+.emoji-answer {
+  font-size: 48px;
+}
