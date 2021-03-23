@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Spinner } from "react-bootstrap";
 
-import { API_URL, USER_ID } from "../constants";
+import apiService from "../util/ApiService";
 
 import Question from "./Question";
 
@@ -15,13 +15,9 @@ function Questions() {
       setIsFetchingQuestions(true);
 
       try {
-        const [questionsData, statesData] = await Promise.all([
-          fetch(`${API_URL}knowledge-check-blocks`),
-          fetch(`${API_URL}user-questions-state?userId=${USER_ID}`)
-        ]);
         const [questions, states] = await Promise.all([
-          questionsData.json(),
-          statesData.json()
+          apiService.getKnowledgeCheckBlocks(),
+          apiService.getUserQuestionsState()
         ]);
 
         // Map each question with its respective state, or empty object

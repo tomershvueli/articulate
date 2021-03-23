@@ -1,22 +1,22 @@
 import { useState } from "react";
 import { Card, Button, ListGroup, ListGroupItem, Form, Alert } from "react-bootstrap";
 
-import { API_URL, USER_ID } from "../constants";
+import apiService from "../util/ApiService"
 
 import './Question.css';
 
 function Question({ question }) {
 
-  const [radioSelected, setRadioSelected] = useState(question.state.selected ?? -1);
-  const [hasSubmitted, setHasSubmitted] = useState(question.state.submitted ?? false);
-
-  const correctAnswerEmojis = ["✅", "👍", "🥳"];
-  const incorrectAnswerEmojis = ["❌", "😕", "😢"];
+  const [radioSelected, setRadioSelected] = useState(question.state?.selected ?? -1);
+  const [hasSubmitted, setHasSubmitted] = useState(question.state?.submitted ?? false);
 
   const getCorrectEmoji = () => {
+    const correctAnswerEmojis = ["✅", "👍", "🥳"];
     return correctAnswerEmojis[Math.floor(Math.random() * correctAnswerEmojis.length)];
   };
+
   const getIncorrectEmoji = () => {
+    const incorrectAnswerEmojis = ["❌", "😕", "😢"];
     return incorrectAnswerEmojis[Math.floor(Math.random() * incorrectAnswerEmojis.length)];
   };
 
@@ -24,17 +24,7 @@ function Question({ question }) {
 
   const updateQuestionState = async (questionState) => {
     // Let's update the questions' state in our API
-    await fetch(`${API_URL}user-questions-state`, {
-      method: "PUT",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        userId: USER_ID,
-        questionId: question.id,
-        questionState
-      })
-    });
+    apiService.updateQuestionState(question.id, questionState);
   };
 
   const handleRadioChange = async (idx) => {

@@ -1,5 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import Question from './Question';
+import apiService from "../util/ApiService";
 
 const defaultQuestion = {
   id: "9d044cf1-763f-44a8-aec6-77713be117df",
@@ -29,6 +30,11 @@ const buildComponent = (question = defaultQuestion) => {
 };
 
 describe("Question", () => {
+  beforeEach(() => {
+    jest.spyOn(apiService, 'updateQuestionState');
+    jest.resetAllMocks();
+  });
+
   it("renders Question properly", () => {
     buildComponent();
 
@@ -53,6 +59,8 @@ describe("Question", () => {
     fireEvent.click(screen.getAllByTestId("question-radio-btn")[0]);
 
     expect(submitBtn).not.toBeDisabled();
+    expect(apiService.updateQuestionState).toHaveBeenCalledTimes(1);
+    expect(apiService.updateQuestionState).toHaveBeenCalledWith(defaultQuestion.id, { selected: 0 });
   });
 
   it("selects right answer and resets question", () => {
@@ -66,14 +74,20 @@ describe("Question", () => {
     fireEvent.click(screen.getAllByTestId("question-radio-btn")[0]);
 
     expect(screen.getByTestId("submit-btn")).not.toBeDisabled();
+    expect(apiService.updateQuestionState).toHaveBeenCalledTimes(1);
+    expect(apiService.updateQuestionState).toHaveBeenCalledWith(defaultQuestion.id, { selected: 0 });
 
     fireEvent.click(screen.getByTestId("submit-btn"));
+    expect(apiService.updateQuestionState).toHaveBeenCalledTimes(2);
+    expect(apiService.updateQuestionState).toHaveBeenLastCalledWith(defaultQuestion.id, { submitted: true });
 
     expect(screen.queryByTestId("answer-alert")).toBeInTheDocument();
     expect(screen.queryByTestId("answer-alert")).toHaveClass("alert-success")
     expect(screen.queryByTestId("try-again-btn")).toBeInTheDocument();
 
     fireEvent.click(screen.queryByTestId("try-again-btn"));
+    expect(apiService.updateQuestionState).toHaveBeenCalledTimes(3);
+    expect(apiService.updateQuestionState).toHaveBeenLastCalledWith(defaultQuestion.id, { submitted: false, selected: -1 });
 
     expect(screen.getByTestId("submit-btn")).toBeInTheDocument();
     expect(screen.getByTestId("submit-btn")).toBeDisabled();
@@ -90,16 +104,22 @@ describe("Question", () => {
     expect(screen.queryByTestId("try-again-btn")).not.toBeInTheDocument();
 
     fireEvent.click(screen.getAllByTestId("question-radio-btn")[1]);
+    expect(apiService.updateQuestionState).toHaveBeenCalledTimes(1);
+    expect(apiService.updateQuestionState).toHaveBeenLastCalledWith(defaultQuestion.id, { selected: 1 });
 
     expect(screen.getByTestId("submit-btn")).not.toBeDisabled();
 
     fireEvent.click(screen.getByTestId("submit-btn"));
+    expect(apiService.updateQuestionState).toHaveBeenCalledTimes(2);
+    expect(apiService.updateQuestionState).toHaveBeenLastCalledWith(defaultQuestion.id, { submitted: true });
 
     expect(screen.queryByTestId("answer-alert")).toBeInTheDocument();
     expect(screen.queryByTestId("answer-alert")).toHaveClass("alert-danger");
     expect(screen.queryByTestId("try-again-btn")).toBeInTheDocument();
 
     fireEvent.click(screen.queryByTestId("try-again-btn"));
+    expect(apiService.updateQuestionState).toHaveBeenCalledTimes(3);
+    expect(apiService.updateQuestionState).toHaveBeenLastCalledWith(defaultQuestion.id, { submitted: false, selected: -1 });
 
     expect(screen.getByTestId("submit-btn")).toBeInTheDocument();
     expect(screen.getByTestId("submit-btn")).toBeDisabled();
