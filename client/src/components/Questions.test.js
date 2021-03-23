@@ -42,8 +42,8 @@ describe("Questions", () => {
 
     await waitFor(() => {
       expect(apiService.getKnowledgeCheckBlocks).toHaveBeenCalledTimes(1);
+      expect(screen.queryByTestId("spinner")).not.toBeInTheDocument();
+      expect(screen.getByTestId("alert-error")).toBeInTheDocument();
     });
-    expect(screen.queryByTestId("spinner")).not.toBeInTheDocument();
-    expect(screen.getByTestId("alert-error")).toBeInTheDocument();
   });
 });

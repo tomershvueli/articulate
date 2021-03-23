@@ -25,3 +25,17 @@ To get the REST API up and running on your dev machine:
 1. `cd server`
 1. `yarn install` (or `npm install`)
 1. `yarn start` (or `npm start`)
+
+## To Run the Entire Project
+
+### To start the server
+
+1. `cd server`
+2. `yarn install`
+3. `yarn start`
+
+### To start the client
+
+1. `cd client`
+2. `yarn install`
+3. `yarn start`
