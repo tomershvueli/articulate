@@ -80,7 +80,7 @@ function Question({ question }) {
   }
 
   return (
-    <Card className="mb-4" data-testid="question-wrap">
+    <Card className="mb-4 shadow" data-testid="question-wrap">
       {media && media.type === 'image' && <Card.Img variant="top" data-testid="question-img" src={media.url} alt={questionTitle} />}
       <Card.Body>
         <Card.Title className="mb-0">{questionTitle}</Card.Title>

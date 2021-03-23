@@ -1,3 +1,7 @@
+.shadow {
+  box-shadow: 3px 3px 10px 0 rgba(0,0,0,0.75);
+}
+
 .card .form-check-input:disabled ~ .form-check-label, .form-check-input[disabled] ~ .form-check-label {
   color: inherit;
 }
