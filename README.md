@@ -27,15 +27,19 @@ To get the REST API up and running on your dev machine:
 1. `yarn start` (or `npm start`)
 
 ## To Run the Entire Project
+Be sure ports 5000 and 3000 are open. 
 
 ### To start the server
 
 1. `cd server`
-2. `yarn install`
+2. `yarn`
 3. `yarn start`
 
 ### To start the client
 
+In a fresh Terminal window/tab:
 1. `cd client`
-2. `yarn install`
+2. `yarn`
 3. `yarn start`
+
+Visit [http://localhost:3000](http://localhost:3000) to view the app
